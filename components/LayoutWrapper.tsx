@@ -1,5 +1,3 @@
-layout cord 21:13
-
 import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
@@ -96,15 +94,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
       
-      {/* Added 'relative' to body to support absolute positioning if needed contextually */}
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white relative">
         
         {/* --- BACKGROUND THEME START --- */}
-        {/* This stays fixed in the background for ALL pages */}
         <div className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none">
-           {/* Left Top - Blue Glow */}
            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/20 dark:bg-blue-900/20 rounded-full blur-[120px] opacity-80 animate-pulse"></div>
-           {/* Right Top - Pink/Purple Glow */}
            <div className="absolute top-[5%] right-[-5%] w-[35%] h-[35%] bg-purple-400/20 dark:bg-purple-900/20 rounded-full blur-[120px] opacity-80 animate-pulse"></div>
         </div>
         {/* --- BACKGROUND THEME END --- */}
@@ -116,7 +110,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="flex min-h-screen flex-col">
               <Header />
               
-              {/* pt-20 ensures content starts BELOW the fixed header */}
               <main className="mb-auto w-full pt-20">
                 {children}
               </main>

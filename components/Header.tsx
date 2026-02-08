@@ -4,21 +4,19 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from './Link'
 import Logo from '@/data/logo.svg'
+import MobileNav from './MobileNav' // ✅ Import the MobileNav component
 
 const sections = ['home', 'experience', 'projects', 'about', 'contact']
 
-export default function Header({
-  onOpenMobileMenu,
-}: {
-  onOpenMobileMenu: () => void
-}) {
+export default function Header() {
+  // ✅ State is now managed HERE, inside the Header
+  const [navShow, setNavShow] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [active, setActive] = useState('home')
 
   useEffect(() => {
     setMounted(true)
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -27,12 +25,10 @@ export default function Header({
       },
       { rootMargin: '-40% 0px -50% 0px' }
     )
-
     sections.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
-
     return () => observer.disconnect()
   }, [])
 
@@ -42,16 +38,15 @@ export default function Header({
     </Link>
   )
 
+  const onToggleNav = () => {
+    setNavShow((status) => !status)
+  }
+
   return (
-    // Fixed: Ensure the header is always full width and handles dark mode borders better
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur border-b border-gray-200 dark:border-gray-800">
-      
-      {/* CHANGE HERE: Changed max-w-[1400px] logic. 
-          Using w-full and px-4 ensures no "gaps" on the sides in mobile.
-      */}
       <div className="mx-auto w-full max-w-[1400px] px-4">
         <div className="flex h-16 items-center justify-between">
-
+          
           {/* LOGO */}
           <Link href="/#home" className="flex items-center gap-2">
             <Logo className="h-7 w-7 text-blue-600" />
@@ -71,7 +66,6 @@ export default function Header({
 
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-3">
-
             {mounted && (
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -91,18 +85,20 @@ export default function Header({
             </Link>
 
             {/* ✅ MOBILE MENU BUTTON */}
-            {/* Added relative and z-index to ensure it is clickable above other layers */}
             <button
-              onClick={onOpenMobileMenu}
+              onClick={onToggleNav}
               className="md:hidden text-2xl p-2 relative z-50 hover:text-blue-600 transition-colors"
               aria-label="Open Menu"
             >
               ☰
             </button>
-
           </div>
         </div>
       </div>
+
+      {/* ✅ RENDER MOBILE NAV HERE */}
+      {/* This passes the required props to MobileNav, fixing the build error */}
+      <MobileNav isOpen={navShow} setIsOpen={setNavShow} />
     </header>
   )
 }

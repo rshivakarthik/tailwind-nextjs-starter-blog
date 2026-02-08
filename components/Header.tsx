@@ -9,9 +9,8 @@ import MobileNav from './MobileNav' // ✅ Import the MobileNav component
 const sections = ['home', 'experience', 'projects', 'about', 'contact']
 
 export default function Header() {
-  // 1. State for controlling the mobile menu
+  // ✅ State is now managed HERE, inside the Header
   const [navShow, setNavShow] = useState(false)
-  
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [active, setActive] = useState('home')
@@ -85,7 +84,7 @@ export default function Header() {
               Hire Me
             </Link>
 
-            {/* MOBILE MENU TOGGLE BUTTON */}
+            {/* ✅ MOBILE MENU BUTTON */}
             <button
               onClick={onToggleNav}
               className="md:hidden text-2xl p-2 relative z-50 hover:text-blue-600 transition-colors"
@@ -97,9 +96,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ✅ MOBILE NAV COMPONENT - Passed the required props */}
+      {/* ✅ RENDER MOBILE NAV HERE - This is line 111, fixing the error at line 40 */}
       <MobileNav isOpen={navShow} setIsOpen={setNavShow} />
-      
     </header>
   )
 }

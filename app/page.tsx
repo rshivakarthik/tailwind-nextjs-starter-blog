@@ -1,8 +1,6 @@
 'use client'
 
-import { useState } from 'react'
 import Header from '@/components/Header'
-import MobileMenu from '@/components/MobileMenu'
 import Hero from '@/components/portfolio/Hero'
 import Experience from '@/components/portfolio/Experience'
 import Projects from '@/components/portfolio/Projects'
@@ -11,17 +9,16 @@ import About from '@/components/portfolio/About'
 import Skills from '@/components/portfolio/Skills'
 
 export default function Page() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  // We removed the 'useState' logic because Header handles it internally now!
 
   return (
     // 'overflow-hidden' on the container is the final shield against layout gaps
     <div className="relative w-full overflow-hidden">
       
-      {/* 1. Header with the open function */}
-      <Header onOpenMobileMenu={() => setIsMenuOpen(true)} />
+      {/* ✅ FIXED: Just render Header. No props needed anymore! */}
+      <Header />
 
-      {/* 2. Mobile Menu component */}
-      <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      {/* We removed <MobileMenu /> because it is now inside Header */}
 
       <main className="flex flex-col gap-0 w-full scroll-smooth pt-16">
         

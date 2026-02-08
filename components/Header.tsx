@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from './Link'
 import Logo from '@/data/logo.svg'
-import MobileNav from './MobileNav' // ✅ Import the MobileNav component
+import MobileNav from './MobileNav'
 
 const sections = ['home', 'experience', 'projects', 'about', 'contact']
 
 export default function Header() {
-  // ✅ State is now managed HERE, inside the Header
+  // 1. State for controlling the mobile menu
   const [navShow, setNavShow] = useState(false)
+  
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [active, setActive] = useState('home')
@@ -84,7 +85,7 @@ export default function Header() {
               Hire Me
             </Link>
 
-            {/* ✅ MOBILE MENU BUTTON */}
+            {/* MOBILE MENU TOGGLE BUTTON */}
             <button
               onClick={onToggleNav}
               className="md:hidden text-2xl p-2 relative z-50 hover:text-blue-600 transition-colors"
@@ -96,9 +97,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ✅ RENDER MOBILE NAV HERE */}
-      {/* This passes the required props to MobileNav, fixing the build error */}
+      {/* ✅ MOBILE NAV COMPONENT - Fixed to receive props */}
       <MobileNav isOpen={navShow} setIsOpen={setNavShow} />
+      
     </header>
   )
 }

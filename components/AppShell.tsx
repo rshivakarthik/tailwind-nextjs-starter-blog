@@ -1,17 +1,17 @@
 'use client'
 
-import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import MobileNav from '@/components/MobileNav'
+// MobileNav is removed because it is now INSIDE Header
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  // We removed the 'useState' logic because Header handles the menu internally now!
 
   return (
     <div className="flex min-h-screen flex-col">
 
-      <Header onOpenMobileMenu={() => setMobileOpen(true)} />
+      {/* ✅ FIXED: Just render Header. No props needed anymore! */}
+      <Header />
 
       <main className="mb-auto w-full pt-20">
         {children}
@@ -19,10 +19,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <Footer />
 
-      <MobileNav
-        isOpen={mobileOpen}
-        setIsOpen={setMobileOpen}
-      />
+      {/* We removed <MobileNav /> from here because Header already contains it */}
+      
     </div>
   )
 }

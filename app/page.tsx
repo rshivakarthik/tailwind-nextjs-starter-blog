@@ -1,3 +1,8 @@
+'use client'
+
+import { useState } from 'react'
+import Header from '@/components/Header'
+import MobileMenu from '@/components/MobileMenu'
 import Hero from '@/components/portfolio/Hero'
 import Experience from '@/components/portfolio/Experience'
 import Projects from '@/components/portfolio/Projects'
@@ -6,43 +11,45 @@ import About from '@/components/portfolio/About'
 import Skills from '@/components/portfolio/Skills'
 
 export default function Page() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
-    // UPDATED: Added 'scroll-smooth' for nice scrolling effect
-    <main className="flex flex-col gap-0 w-full scroll-smooth">
+    // 'overflow-hidden' on the container is the final shield against layout gaps
+    <div className="relative w-full overflow-hidden">
       
-      {/* Home Section */}
-      <section id="home">
-        <Hero />
-      </section>
+      {/* 1. Header with the open function */}
+      <Header onOpenMobileMenu={() => setIsMenuOpen(true)} />
 
-      {/* Experience Section */}
-      <section id="experience">
-        <Experience />
-      </section>
+      {/* 2. Mobile Menu component */}
+      <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
-      {/* Projects Section */}
-      <section id="projects">
-        <Projects />
-      </section>
+      <main className="flex flex-col gap-0 w-full scroll-smooth pt-16">
+        
+        <section id="home">
+          <Hero />
+        </section>
 
-    
+        <section id="experience">
+          <Experience />
+        </section>
 
-      {/* About Section */}
-      <section id="about">
-        <About />
-      </section>
+        <section id="projects">
+          <Projects />
+        </section>
 
-      {/* Skills Section */}
-      <section id="skills">
-        <Skills />
-      </section>
+        <section id="about">
+          <About />
+        </section>
 
-  {/* Contact Section (CTA) */}
-      <section id="contact">
-        <CTA />
-      </section>
-   
+        <section id="skills">
+          <Skills />
+        </section>
 
-    </main>
+        <section id="contact">
+          <CTA />
+        </section>
+
+      </main>
+    </div>
   )
 }

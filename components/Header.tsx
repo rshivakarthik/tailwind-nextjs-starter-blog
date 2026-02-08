@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from './Link'
 import Logo from '@/data/logo.svg'
-import MobileNav from './MobileNav'
+import MobileNav from './MobileNav' // ✅ Import the MobileNav component
 
 const sections = ['home', 'experience', 'projects', 'about', 'contact']
 
@@ -97,7 +97,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ✅ MOBILE NAV COMPONENT - Fixed to receive props */}
+      {/* ✅ MOBILE NAV COMPONENT - Passed the required props */}
       <MobileNav isOpen={navShow} setIsOpen={setNavShow} />
       
     </header>

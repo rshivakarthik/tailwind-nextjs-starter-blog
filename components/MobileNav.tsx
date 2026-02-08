@@ -2,32 +2,43 @@
 
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { Fragment, useState, useEffect, useRef } from 'react'
+import { Fragment, useEffect, useRef, Dispatch, SetStateAction } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 
-const MobileNav = () => {
-  const [navShow, setNavShow] = useState(false)
+// 1. Define the interface so TypeScript knows what props to expect
+interface MobileNavProps {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+// 2. Accept the props in the component function
+const MobileNav = ({ isOpen, setIsOpen }: MobileNavProps) => {
   const navRef = useRef(null)
 
+  // 3. Use useEffect to handle scroll locking based on the isOpen prop
+  useEffect(() => {
+    if (isOpen) {
+      if (navRef.current) disableBodyScroll(navRef.current)
+    } else {
+      if (navRef.current) enableBodyScroll(navRef.current)
+    }
+    return () => clearAllBodyScrollLocks()
+  }, [isOpen])
+
+  // Helper to toggle state
   const onToggleNav = () => {
-    setNavShow((status) => {
-      if (status) {
-        enableBodyScroll(navRef.current)
-      } else {
-        // Prevent scrolling
-        disableBodyScroll(navRef.current)
-      }
-      return !status
-    })
+    setIsOpen((status) => !status)
   }
 
-  useEffect(() => {
-    return clearAllBodyScrollLocks
-  })
+  // Helper to force close
+  const onClose = () => {
+    setIsOpen(false)
+  }
 
   return (
     <>
+      {/* Hamburger Button */}
       <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,8 +53,10 @@ const MobileNav = () => {
           />
         </svg>
       </button>
-      <Transition appear show={navShow} as={Fragment} unmount={false}>
-        <Dialog as="div" onClose={onToggleNav} unmount={false}>
+
+      {/* Slide-out Menu */}
+      <Transition appear show={isOpen} as={Fragment} unmount={false}>
+        <Dialog as="div" onClose={onClose} unmount={false}>
           <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
@@ -77,17 +90,26 @@ const MobileNav = () => {
                     key={link.title}
                     href={link.href}
                     className="hover:text-primary-500 dark:hover:text-primary-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-gray-900 outline outline-0 dark:text-gray-100"
-                    onClick={onToggleNav}
+                    onClick={onClose}
                   >
                     {link.title}
                   </Link>
                 ))}
+
+                {/* Added 'Hire Me' button to match your other requests */}
+                <Link
+                  href="https://linkedin.com/in/shiva-karthik-257640253"
+                  className="hover:text-primary-500 dark:hover:text-primary-400 mb-4 py-2 pr-4 text-2xl font-bold tracking-widest text-blue-600 outline outline-0"
+                  onClick={onClose}
+                >
+                  Hire Me
+                </Link>
               </nav>
 
               <button
                 className="hover:text-primary-500 dark:hover:text-primary-400 fixed top-7 right-4 z-80 h-16 w-16 p-4 text-gray-900 dark:text-gray-100"
                 aria-label="Toggle Menu"
-                onClick={onToggleNav}
+                onClick={onClose}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path

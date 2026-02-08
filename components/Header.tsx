@@ -4,14 +4,12 @@ import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from './Link'
 import Logo from '@/data/logo.svg'
-import MobileNav from './MobileNav' // ✅ MobileNav import చేయబడింది
+import MobileNav from './MobileNav'
 
 const sections = ['home', 'experience', 'projects', 'about', 'contact']
 
 export default function Header() {
-  // ✅ ఈ లైన్ చాలా ముఖ్యం: ఇది మెనూ ఓపెన్/క్లోజ్ చేయడానికి state ని క్రియేట్ చేస్తుంది
   const [navShow, setNavShow] = useState(false)
-  
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [active, setActive] = useState('home')
@@ -97,7 +95,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ✅ CORRECTED LINE: ఇక్కడ మనం props ని పాస్ చేస్తున్నాము */}
+      {/* ✅ CORRECTED LINE: ఇది కచ్చితంగా ఉండాలి */}
       <MobileNav isOpen={navShow} setIsOpen={setNavShow} />
       
     </header>
